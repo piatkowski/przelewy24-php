@@ -1,0 +1,20 @@
+{
+    "name": "piatkowski/przelewy24-php",
+    "description": "Simple class to use P24 REST API",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Przelewy24\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Krzysztof Piątkowski",
+            "homepage": "https://github.com/piatkowski"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    }
+}
