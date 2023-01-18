@@ -40,6 +40,11 @@ $transaction = $client->transaction( [
 ] );
 ```
 
+Get Payment URL
+```php
+$transaction->getRedirectUrl();
+```
+
 ### Create endpoint to receive notification from P24 API
 
 ```php
