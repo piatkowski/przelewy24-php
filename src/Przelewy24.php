@@ -77,13 +77,31 @@ class Przelewy24 {
 	}
 
 	/**
-	 * Listen to Payment Notification
+	 * Receive Payment Notification from P24
 	 * @return Notification
 	 */
-	function listenNotification(): Notification {
+	function receiveNotification(): Notification {
 		$jsonData = file_get_contents( 'php://input' );
 		$data     = json_decode( $jsonData, true );
 
 		return new Notification( $data ?? [] );
+	}
+
+	/**
+	 * Create Notification object from raw data
+	 *
+	 * @param array $params
+	 *
+	 * @return Notification
+	 */
+	function createNotification( array $params ): Notification {
+		return new Notification( [
+			'merchantId' => $this->config->getMerchantId(),
+			'posId'      => $this->config->getPosId(),
+			'sessionId'  => $params['sessionId'],
+			'amount'     => $params['amount'],
+			'currency'   => $params['currency'] ?? 'PLN',
+			'orderId'    => $params['amount']
+		] );
 	}
 }

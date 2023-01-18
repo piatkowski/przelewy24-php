@@ -14,7 +14,7 @@ composer require piatkowski/przelewy24-php
 
 ## Example of usage
 
-Create new instance of the P24 Client with authorization data
+### Create new instance of the P24 Client with authorization data
 
 ```php
 $client = new \Przelewy24\Przelewy24( [
@@ -40,12 +40,25 @@ $transaction = $client->transaction( [
 ] );
 ```
 
-Get payment Url
+### Create endpoint to receive notification from P24 API
 
 ```php
-$transaction->getRedirectUrl();
+// get incoming data from php://input
+$notification = $client->receiveNotification();
 ```
-
-## Todo
-- get response from P24 after successful payment
-- verify transaction
+or
+```php
+// create Notification object from raw data
+$notification = $client->createNotification([
+    'sessionId'     => '...',
+    'amount'        => '...',
+    'orderId'       => '...',
+    'currency'      => '...', // optional, default: PLN
+]);
+```
+You can now verify transaction passing Notification object and get API response data
+```php
+$response   = $client->verify( $notification );
+$status     = $response->getStatus();   //HTTP Status Code
+$data       = $response->getData();     //Response data object
+```

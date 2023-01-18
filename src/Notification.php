@@ -2,10 +2,21 @@
 
 namespace Przelewy24;
 
+/**
+ * Payment Notification
+ */
 class Notification {
 
+	/**
+	 * Notification parameters
+	 * @var array
+	 */
 	protected array $parameters = [];
 
+	/**
+	 * Returns array of allowed parameter keys
+	 * @return string[]
+	 */
 	protected function getAllowedParameters(): array {
 		return [
 			'merchantId',
@@ -33,7 +44,13 @@ class Notification {
 		return $this->parameters[ $name ] ?? '';
 	}
 
-	function getParameters( array $keys = [] ) {
+	/**
+	 * Get parameters by keys. Returns all paraeters if $keys is empty
+	 * @param array $keys
+	 *
+	 * @return array
+	 */
+	function getParameters( array $keys = [] ): array {
 		if ( empty( $keys ) ) {
 			return $this->parameters;
 		}

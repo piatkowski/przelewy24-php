@@ -3,7 +3,6 @@
 namespace Przelewy24\Request;
 
 use Przelewy24\Config;
-use Przelewy24\Response\ResponseException;
 
 abstract class Request {
 

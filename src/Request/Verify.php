@@ -3,6 +3,7 @@
 namespace Przelewy24\Request;
 
 use Przelewy24\Config;
+use Przelewy24\Response\ResponseException;
 use Przelewy24\Response\VerifyResponse;
 
 class Verify extends Request {
@@ -41,10 +42,10 @@ class Verify extends Request {
 	}
 
 	/**
-	 * Make register transaction POST request
+	 * Make verification transaction POST request
 	 * @return VerifyResponse
 	 * @throws RequestException
-	 * @throws \Przelewy24\Response\ResponseException
+	 * @throws ResponseException
 	 */
 	function request(): VerifyResponse {
 		return new VerifyResponse(
