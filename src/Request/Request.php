@@ -3,7 +3,7 @@
 namespace Przelewy24\Request;
 
 use Przelewy24\Config;
-use Przelewy24\Response\ApiException;
+use Przelewy24\Response\ResponseException;
 
 abstract class Request {
 
@@ -32,6 +32,7 @@ abstract class Request {
 
 	/**
 	 * Request parameter setter
+	 *
 	 * @param string $name
 	 * @param $value
 	 *
@@ -43,6 +44,7 @@ abstract class Request {
 
 	/**
 	 * Request parameter getter
+	 *
 	 * @param string $name
 	 *
 	 * @return mixed|string
@@ -69,6 +71,7 @@ abstract class Request {
 
 	/**
 	 * Set endpoint full Url
+	 *
 	 * @param string $endpoint
 	 *
 	 * @return void
@@ -117,14 +120,15 @@ abstract class Request {
 
 	/**
 	 * Make HTTP request using cURL and return response array (status and data)
+	 *
 	 * @param string $method
 	 *
 	 * @return array
-	 * @throws \Przelewy24\Request\ApiException
+	 * @throws \Przelewy24\Request\RequestException
 	 */
 	protected function makeRequest( string $method ) {
 		if ( ! in_array( $method, [ 'POST', 'PUT', 'GET' ] ) ) {
-			throw new \Przelewy24\Request\ApiException( 'Method ' . $method . ' is not expected.' );
+			throw new \Przelewy24\Request\RequestException( 'Method ' . $method . ' is not expected.' );
 		}
 		$curl = curl_init( $this->getEndpoint() );
 		curl_setopt( $curl, CURLOPT_HTTPHEADER, [ 'Content-Type: application/json' ] );
@@ -142,8 +146,12 @@ abstract class Request {
 		curl_close( $curl );
 
 		return [
-			'status' => $status,
-			'data'   => json_decode( $response, true )
+			'request' => [
+				$this->getEndpoint(),
+				$this->getParams()
+			],
+			'status'  => $status,
+			'data'    => json_decode( $response, true )
 		];
 	}
 

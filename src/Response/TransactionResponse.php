@@ -22,11 +22,11 @@ class TransactionResponse extends Response {
 	/**
 	 * Get redirect Url for payment
 	 * @return string
-	 * @throws ApiException
+	 * @throws ResponseException
 	 */
 	function getRedirectUrl() {
 		if ( ! isset( $this->getData()->data['token'] ) ) {
-			throw new ApiException( 'Cannot get redirect url - missing transaction token.' );
+			throw new ResponseException( 'Cannot get redirect url - missing transaction token.' );
 		}
 		return $this->baseUrl . '/' . $this->getData()->data['token'];
 	}

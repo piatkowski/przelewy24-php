@@ -17,7 +17,7 @@ abstract class Response {
 	/**
 	 * @param $response
 	 *
-	 * @throws ApiException
+	 * @throws ResponseException
 	 */
 	function __construct( $response ) {
 
@@ -25,14 +25,14 @@ abstract class Response {
 			throw new \InvalidArgumentException( 'Missing response status' );
 		}
 		if ( empty( $response['data'] ) ) {
-			throw new ApiException( 'JSON Response is empty' );
+			throw new ResponseException( 'JSON Response is empty' );
 		}
 		if ( (int) $response['status'] !== 200 ) {
 			$error_message = '';
 			if ( $response['data']['error'] ) {
 				$error_message = ' ' . $response['data']['error'];
 			}
-			throw new ApiException( 'Response status ' . $response['status'] . $error_message );
+			throw new ResponseException( 'Response status ' . $response['status'] . $error_message . '. Request ' . print_r($response['request'], true) );
 		}
 		$this->status = $response['status'];
 		$this->data   = (object) $response['data'];

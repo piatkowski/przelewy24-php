@@ -32,8 +32,8 @@ class Transaction extends Request {
 	/**
 	 * Make register transaction POST request
 	 * @return TransactionResponse
-	 * @throws ApiException
-	 * @throws \Przelewy24\Response\ApiException
+	 * @throws RequestException
+	 * @throws \Przelewy24\Response\ResponseException
 	 */
 	function request(): TransactionResponse {
 		$response = new TransactionResponse(

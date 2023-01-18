@@ -4,8 +4,10 @@ namespace Przelewy24;
 
 use Przelewy24\Request\TestAccess;
 use Przelewy24\Request\Transaction;
+use Przelewy24\Request\Verify;
 use Przelewy24\Response\TestAccessResponse;
 use Przelewy24\Response\TransactionResponse;
+use Przelewy24\Response\VerifyResponse;
 
 class Przelewy24 {
 
@@ -33,11 +35,12 @@ class Przelewy24 {
 	 * @param array $params
 	 *
 	 * @return TransactionResponse
-	 * @throws Request\ApiException
-	 * @throws Response\ApiException
+	 * @throws Request\RequestException
+	 * @throws Response\ResponseException
 	 */
-	function transaction( array $params ) : TransactionResponse {
+	function transaction( array $params ): TransactionResponse {
 		$transaction = new Transaction( $this->config, $params );
+
 		return $transaction->request();
 	}
 
@@ -45,11 +48,42 @@ class Przelewy24 {
 	 * Test P24 Api Access
 	 * Use getStatus() and getData() on response
 	 * @return TestAccessResponse
-	 * @throws Request\ApiException
-	 * @throws Response\ApiException
+	 * @throws Request\RequestException
+	 * @throws Response\ResponseException
 	 */
-	function testAccess() : TestAccessResponse {
+	function testAccess(): TestAccessResponse {
 		$testAccess = new TestAccess( $this->config );
+
 		return $testAccess->request();
+	}
+
+	/**
+	 * Verify transaction - true on success, false on error
+	 *
+	 * @param array $params
+	 *
+	 * @return VerifyResponse
+	 * @throws Request\RequestException
+	 * @throws Response\ResponseException
+	 */
+	function verify( Notification $notification ): VerifyResponse {
+		$verify = new Verify( $this->config, $notification->getParameters( [
+			'sessionId',
+			'amount',
+			'orderId'
+		] ) );
+
+		return $verify->request();
+	}
+
+	/**
+	 * Listen to Payment Notification
+	 * @return Notification
+	 */
+	function listenNotification(): Notification {
+		$jsonData = file_get_contents( 'php://input' );
+		$data     = json_decode( $jsonData, true );
+
+		return new Notification( $data ?? [] );
 	}
 }

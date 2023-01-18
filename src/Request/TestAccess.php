@@ -15,8 +15,8 @@ class TestAccess extends Request {
 	/**
 	 * Make test access GET request
 	 * @return TestAccessResponse
-	 * @throws ApiException
-	 * @throws \Przelewy24\Response\ApiException
+	 * @throws RequestException
+	 * @throws \Przelewy24\Response\ResponseException
 	 */
 	function request(): TestAccessResponse {
 		return new TestAccessResponse(
