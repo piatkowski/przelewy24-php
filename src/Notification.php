@@ -14,6 +14,11 @@ class Notification {
 	protected array $parameters = [];
 
 	/**
+	 * @var string
+	 */
+	private string $merchantId, $posId, $sessionId, $amount, $originAmount, $currency, $orderId, $methodId, $statement, $sign;
+
+	/**
 	 * Returns array of allowed parameter keys
 	 * @return string[]
 	 */

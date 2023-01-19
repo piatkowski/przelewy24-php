@@ -35,11 +35,12 @@ class Config {
 
 	/**
 	 * Create config with at least merchantId or posId, crc, reportKey and sandbox mode (true/false).
+	 *
 	 * @param $params
 	 */
 	function __construct( $params ) {
-		$this->merchantId = ( $params['merchantId'] ?? $params['posId'] ) ?? '';
-		$this->posId      = ( $params['posId'] ?? $params['merchantId'] ) ?? '';
+		$this->merchantId = $params['merchantId'] ?? $params['posId'] ?? '';
+		$this->posId      = $params['posId'] ?? $params['merchantId'] ?? '';
 		$this->crc        = $params['crc'] ?? '';
 		$this->isSandbox  = isset( $params['sandbox'] ) && $params['sandbox'] === true;
 		$this->reportKey  = $params['reportKey'] ?? '';
